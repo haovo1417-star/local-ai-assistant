@@ -35,7 +35,7 @@ import ollama_client
 import web_service
 import knowledge_service
 
-WINDOW_TITLE = "Local AI — Project Assistant & Knowledge RAG"
+WINDOW_TITLE = "DevMind — Project Assistant & Code Intelligence"
 WINDOW_SIZE = "1180x760"
 
 # ============================================================
@@ -110,6 +110,9 @@ class LocalAIApp:
             except Exception:
                 pass
 
+        # Apply Windows Native Dark Title Bar
+        self._apply_windows_dark_titlebar()
+
         # Thread-safe UI update queue
         self.ui_queue = queue.Queue()
         self.root.after(50, self.process_ui_queue)
@@ -175,6 +178,50 @@ class LocalAIApp:
     # HEADER SECTION
     # ============================================================
 
+    def _apply_windows_dark_titlebar(self):
+        """
+        Apply Windows 10/11 native immersive dark mode and exact caption background tint.
+        Completely eliminates the jarring bright white titlebar.
+        """
+        try:
+            import ctypes
+            self.root.update_idletasks()
+            hwnd = ctypes.windll.user32.GetParent(self.root.winfo_id())
+            if not hwnd:
+                hwnd = self.root.winfo_id()
+
+            # 1. Immersive Dark Mode (Win 10 1809+ / Win 11)
+            DWMWA_USE_IMMERSIVE_DARK_MODE = 20
+            val = ctypes.c_int(1)
+            ctypes.windll.dwmapi.DwmSetWindowAttribute(
+                hwnd,
+                DWMWA_USE_IMMERSIVE_DARK_MODE,
+                ctypes.byref(val),
+                ctypes.sizeof(val)
+            )
+
+            # 2. Caption Background Color: 0x00BBGGRR for #13141f -> 0x0013141f (Win 11)
+            DWMWA_CAPTION_COLOR = 35
+            caption_color = ctypes.c_int(0x0013141f)
+            ctypes.windll.dwmapi.DwmSetWindowAttribute(
+                hwnd,
+                DWMWA_CAPTION_COLOR,
+                ctypes.byref(caption_color),
+                ctypes.sizeof(caption_color)
+            )
+
+            # 3. Caption Text Color: 0x00fcfaf8 (Win 11)
+            DWMWA_TEXT_COLOR = 36
+            text_color = ctypes.c_int(0x00fcfaf8)
+            ctypes.windll.dwmapi.DwmSetWindowAttribute(
+                hwnd,
+                DWMWA_TEXT_COLOR,
+                ctypes.byref(text_color),
+                ctypes.sizeof(text_color)
+            )
+        except Exception:
+            pass
+
     def _build_header(self):
         self.header_frame = tk.Frame(self.root, bg=THEME["bg_header"], height=62, padx=20, pady=12)
         self.header_frame.pack(side=tk.TOP, fill=tk.X)
@@ -187,10 +234,10 @@ class LocalAIApp:
         app_icon = tk.Label(brand_frame, text="⚡", bg=THEME["bg_header"], fg=THEME["primary"], font=("Segoe UI Emoji", 16))
         app_icon.pack(side=tk.LEFT, padx=(0, 8))
 
-        app_title = tk.Label(brand_frame, text="LOCAL AI", bg=THEME["bg_header"], fg=THEME["text_white"], font=("Segoe UI", 14, "bold"))
+        app_title = tk.Label(brand_frame, text="DEVMIND", bg=THEME["bg_header"], fg=THEME["text_white"], font=("Segoe UI", 14, "bold"))
         app_title.pack(side=tk.LEFT)
 
-        app_badge = tk.Label(brand_frame, text="v2.5", bg=THEME["primary"], fg=THEME["text_white"], font=("Segoe UI", 8, "bold"), padx=6, pady=1)
+        app_badge = tk.Label(brand_frame, text="AI CORE", bg=THEME["primary"], fg=THEME["text_white"], font=("Segoe UI", 8, "bold"), padx=6, pady=1)
         app_badge.pack(side=tk.LEFT, padx=(8, 16))
 
         # Header Tools: Memory Manager & Database Maintenance
