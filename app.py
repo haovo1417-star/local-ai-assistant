@@ -102,6 +102,14 @@ class LocalAIApp:
         self.root.configure(bg=THEME["bg_root"])
         self.root.minsize(980, 680)
 
+        # Set Application Icon
+        icon_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'app_icon.ico')
+        if os.path.exists(icon_path):
+            try:
+                self.root.iconbitmap(icon_path)
+            except Exception:
+                pass
+
         # Thread-safe UI update queue
         self.ui_queue = queue.Queue()
         self.root.after(50, self.process_ui_queue)
