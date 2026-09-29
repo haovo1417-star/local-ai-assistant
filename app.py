@@ -35,7 +35,7 @@ import ollama_client
 import web_service
 import knowledge_service
 
-WINDOW_TITLE = "DevMind — Project Assistant & Code Intelligence"
+WINDOW_TITLE = "ino"
 WINDOW_SIZE = "1180x760"
 
 # ============================================================
@@ -234,10 +234,10 @@ class LocalAIApp:
         app_icon = tk.Label(brand_frame, text="⚡", bg=THEME["bg_header"], fg=THEME["primary"], font=("Segoe UI Emoji", 16))
         app_icon.pack(side=tk.LEFT, padx=(0, 8))
 
-        app_title = tk.Label(brand_frame, text="DEVMIND", bg=THEME["bg_header"], fg=THEME["text_white"], font=("Segoe UI", 14, "bold"))
+        app_title = tk.Label(brand_frame, text="ino", bg=THEME["bg_header"], fg=THEME["text_white"], font=("Segoe UI", 14, "bold"))
         app_title.pack(side=tk.LEFT)
 
-        app_badge = tk.Label(brand_frame, text="AI CORE", bg=THEME["primary"], fg=THEME["text_white"], font=("Segoe UI", 8, "bold"), padx=6, pady=1)
+        app_badge = tk.Label(brand_frame, text="AI", bg=THEME["primary"], fg=THEME["text_white"], font=("Segoe UI", 8, "bold"), padx=6, pady=1)
         app_badge.pack(side=tk.LEFT, padx=(8, 16))
 
         # Header Tools: Memory Manager & Database Maintenance

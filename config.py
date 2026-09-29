@@ -1,3 +1,4 @@
+APP_NAME = "ino"
 """
 config.py - Central configuration constants for Local AI Assistant.
 Optimized for Intel i5-9300H, 16GB RAM, NVIDIA GTX 1650 4GB.
